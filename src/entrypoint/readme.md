@@ -1,0 +1,2 @@
+# Presentation ou Application
+Nessa pasta deve conter os bootstrap de exposição externa da aplicação, independente do tipo, sejam elas CLI, Stream, HTTP, handle (lambda), de modo que ela deve conter seus próprios controlers de delgação para as classes de dominio para resolução dos comandos ou rotas a serem resolvidos, de modo que a forma de exposição seja uma camada que não influência nas regras de negócios e abstrações, para que caso haja mudanças de disponibilização a regra de negócio estará isolada do core de resolução do sistema.

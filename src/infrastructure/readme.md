@@ -1,0 +1,2 @@
+# Infraestructure
+Essa camada tem o objetivo de isolar todo recurso externo ao domínio de negócio que entende-se como componentes d einfra estrutura ou de serviço que tenham comunicação externa ao core da aplicação, etende-se como recurso externo, APIs e serviços, Banco de dados, Sistemas de fila e mensagem, Repositroios de consumo de dados do banco de dados (abstração conceitual de exposição dos dados), assim como comunicação com o SO, taís como escrita e leitura de arquivos, etc.

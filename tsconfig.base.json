@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "rootDir": "./src",
+        "target": "es2017",
+        "module": "commonjs",
+        "strict": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictNullChecks": false,
+        "resolveJsonModule": true,
+        "types": [
+            "reflect-metadata",
+            "node",
+            "mocha"
+        ],
+        "lib": [
+            "es2017",
+            "dom"
+        ],
+        "sourceMap": true
+    }
+}
