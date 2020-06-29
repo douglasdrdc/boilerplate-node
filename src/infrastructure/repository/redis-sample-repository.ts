@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+import { v4 as uuidv4 } from 'uuid';
 import redis from "./util/redis";
 import SampleRedisRepository from "../../core/domain/infrastructure/repository/sample-redis-repository";
 import { DatabaseError } from "../../core/application/exception/error";
@@ -8,34 +9,51 @@ const keyPrefix = 'SAMPLE';
 const loggerPrefix = 'Sample';
 
 @injectable()
-export default class RedisTalkRepository implements SampleRedisRepository {   
-    async get(sampleId: number): Promise<Sample> {
+export default class RedisTalkRepository implements SampleRedisRepository {
+    async getAll(): Promise<Sample[]> {
+        try {
+            const key = `${keyPrefix}:`;
+            const resultText = await redis.hgetall(key);
+            if (!resultText) return null;
+            const teste = Array<Sample>();
+            return teste;
+        } catch (err) {
+            throw new DatabaseError(err, `Error in recovery ${loggerPrefix} collection.`);
+        }
+    }
+    
+    async getById(sampleId: string): Promise<Sample> {
         try {
             const key = `${keyPrefix}:${sampleId}`;
-            const talkText = await redis.get(key);
-            if (!talkText) return null;
+            const resultText = await redis.get(key);
+            if (!resultText) return null;
 
-            return JSON.parse(talkText);
+            return JSON.parse(resultText);
         } catch (err) {
             throw new DatabaseError(err, `Error in recovery ${loggerPrefix} by id.`);
         }
     }
 
-    async save(sample: Sample): Promise<void> {
+    async create(sample: Sample): Promise<string> {
         try {
             const ttl = 600;
-            const key = `${keyPrefix}:${sample.id}`;
-            const command = redis.multi().set(key, JSON.stringify(sample));
+            const id = uuidv4();
+            const key = `${keyPrefix}:${id}`;
+            const command = redis.multi().set(key, JSON.stringify({
+                id,
+                name: sample.name,
+            }));
             command.expire(key, ttl);
             await command.exec();
+            return id;
         } catch (err) {
             throw new DatabaseError(err, `Error in save ${loggerPrefix} in redis.`);
         }
     }
 
-    async delete(sample: Sample): Promise<void> {
+    async delete(sampleId: number): Promise<void> {
         try {
-            const key = `${keyPrefix}:${sample.id}`;
+            const key = `${keyPrefix}:${sampleId}`;
             await redis.del(key);
         } catch (err) {
             throw new DatabaseError(err, `Error deliting ${loggerPrefix} in redis`);

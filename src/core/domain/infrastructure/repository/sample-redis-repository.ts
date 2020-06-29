@@ -1,7 +1,8 @@
 import Sample from "../../model/sample";
 
 export default interface SampleRedisRepository {
-    get(sampleId: number): Promise<Sample>;
-    save(sample: Sample): Promise<void>;
-    delete(sample: Sample): Promise<void>;
+    getAll(): Promise<Sample[]>;
+    getById(sampleId: string): Promise<Sample>;
+    create(sample: Sample): Promise<string>;
+    delete(sampleId: number): Promise<void>;
 }

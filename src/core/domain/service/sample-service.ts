@@ -10,8 +10,18 @@ export default class SampleService implements ISampleService {
         @inject(CORE_TYPES.SampleRedisRepository) private readonly repositoryRedis: SampleRedisRepository
     ) {}
 
-    async getSample(id: number): Promise<Sample> {
-        const sample = await this.repositoryRedis.get(id);
-        return sample;
+    async getAll(): Promise<Sample[]> {
+        const result = await this.repositoryRedis.getAll();
+        return result;
+    }
+
+    async getById(id: string): Promise<Sample> {
+        const result = await this.repositoryRedis.getById(id);
+        return result;
+    }
+
+    async create(sample: Sample): Promise<string> {
+        const result = await this.repositoryRedis.create(sample);
+        return result;
     }
 }
