@@ -1,5 +1,7 @@
 import Sample from "../../model/sample";
 
 export default interface ISampleService {
-    getSample(id: number): Promise<Sample>;
+    getAll(): Promise<Sample[]>;
+    getById(id: string): Promise<Sample>;
+    create(sample: Sample): Promise<string>;
 }
