@@ -1,7 +1,6 @@
 export const CORE_TYPES = {
-    ISampleService: Symbol('ISampleService'),
-    ISampleValidator: Symbol('ISampleValidator'),
+    SampleService: Symbol('SampleService'),
+    SampleValidator: Symbol('SampleValidator'),
     SampleClient: Symbol('SampleClient'),
-    SampleMongoRepository: Symbol('SampleMongoRepository'),
-    SampleRedisRepository: Symbol('SampleRedisRepository')
+    SampleRepository: Symbol('SampleRepository')
 };

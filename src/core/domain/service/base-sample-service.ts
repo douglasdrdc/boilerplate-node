@@ -1,13 +1,13 @@
 import { injectable, inject } from 'inversify';
-import ISampleService from "./interface/iSample-service";
+import SampleService from "./interface/sample-service";
 import Sample from '../model/sample';
 import { CORE_TYPES } from '../../types';
-import SampleRedisRepository from '../infrastructure/repository/sample-redis-repository';
+import SampleRepository from '../infrastructure/repository/sample-repository';
 
 @injectable()
-export default class SampleService implements ISampleService {
+export default class BaseSampleService implements SampleService {
     constructor(
-        @inject(CORE_TYPES.SampleRedisRepository) private readonly repositoryRedis: SampleRedisRepository
+        @inject(CORE_TYPES.SampleRepository) private readonly repositoryRedis: SampleRepository
     ) {}
 
     async getAll(): Promise<Sample[]> {

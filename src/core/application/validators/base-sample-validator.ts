@@ -1,11 +1,11 @@
 import { injectable } from "inversify";
 import * as Joi from 'joi';
 import * as Errors from '../exception/error';
-import ISampleValidator from "./interface/isample-validator";
+import SampleValidator from "./interface/sample-validator";
 import Sample from "../../domain/model/sample";
 
 @injectable()
-export default class SampleValidator implements ISampleValidator {
+export default class BaseSampleValidator implements SampleValidator {
     validateSampleId(sampleId: any): boolean {
         return !!sampleId;
     }
