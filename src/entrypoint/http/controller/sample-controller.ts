@@ -2,9 +2,8 @@ import * as express from 'express';
 import { controller, httpGet, interfaces, requestParam, response, httpPost, requestBody } from 'inversify-express-utils';
 import { OK, CREATED } from 'http-status-codes';
 import { CORE_TYPES } from "../../../core/types";
-import ISampleService from "../../../core/domain/service/interface/iSample-service";
-import ISampleValidator from '../../../core/application/validators/interface/isample-validator';
-// import Sample from "../../../core/domain/model/sample";
+import SampleService from "../../../core/domain/service/interface/sample-service";
+import SampleValidator from '../../../core/application/validators/interface/sample-validator';
 import { inject } from 'inversify';
 import { NotFoundError, ValidationError } from '../../../core/application/exception/error';
 import { request } from 'http';
@@ -13,8 +12,8 @@ import Sample from '../../../core/domain/model/sample';
 @controller('/sample')
 export class SampleController implements interfaces.Controller {
     constructor(
-        @inject(CORE_TYPES.ISampleService) private readonly service: ISampleService,
-        @inject(CORE_TYPES.ISampleValidator) private readonly validator: ISampleValidator
+        @inject(CORE_TYPES.SampleService) private readonly service: SampleService,
+        @inject(CORE_TYPES.SampleValidator) private readonly validator: SampleValidator
     ) {}
 
     @httpGet('/')

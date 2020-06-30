@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { v4 as uuidv4 } from 'uuid';
 import redis from "./util/redis";
-import SampleRedisRepository from "../../core/domain/infrastructure/repository/sample-redis-repository";
+import SampleRepository from "../../core/domain/infrastructure/repository/sample-repository";
 import { DatabaseError } from "../../core/application/exception/error";
 import Sample from "../../core/domain/model/sample";
 
@@ -9,7 +9,7 @@ const keyPrefix = 'SAMPLE';
 const loggerPrefix = 'Sample';
 
 @injectable()
-export default class RedisTalkRepository implements SampleRedisRepository {
+export default class RedisSampleRepository implements SampleRepository {
     async getAll(): Promise<Sample[]> {
         try {
             const key = `${keyPrefix}:`;
