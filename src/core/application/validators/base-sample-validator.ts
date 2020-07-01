@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
 import * as Joi from 'joi';
-import * as Errors from '../exception/error';
 import SampleValidator from "./interface/sample-validator";
 import Sample from "../../domain/model/sample";
+import { ValidationError } from "../exception/error";
 
 @injectable()
 export default class BaseSampleValidator implements SampleValidator {
@@ -27,7 +27,7 @@ export default class BaseSampleValidator implements SampleValidator {
 
     private createSchema() {
         return Joi.object().keys({
-            name: Joi.string().min(3).max(100).required().error(new Errors.ValidationError('Invalid Name')),
+            name: Joi.string().min(3).max(100).required().error(new ValidationError('Invalid Name')),
         });
     }
 
@@ -35,7 +35,7 @@ export default class BaseSampleValidator implements SampleValidator {
         return [
           {
             invalid: params.name.toUpperCase() === "DOUGLAS",
-            exception: new Errors.ValidationError('This client is bloqued'),
+            exception: new ValidationError('This client is bloqued'),
           }
         ];
       }
