@@ -13,7 +13,7 @@ export default class BaseSampleValidator implements SampleValidator {
     async validateParams(params: any): Promise<void> {
         const schema = this.createSchema();
         return new Promise((resolve, reject) => {
-            Joi.validate(params, schema, (err, search) => {
+            Joi.validate(params, schema, (err: any, search: any) => {
                 if (err) {
                     return reject(err);
                 }
@@ -31,7 +31,7 @@ export default class BaseSampleValidator implements SampleValidator {
         });
     }
 
-    private getCreationValidations(params: Sample) {
+    private getCreationValidations(params: any) {
         return [
           {
             invalid: params.name.toUpperCase() === "DOUGLAS",
