@@ -4,6 +4,7 @@
   "description": "Projeto padrão node.js para novas aplicações",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Douglas Campos",
