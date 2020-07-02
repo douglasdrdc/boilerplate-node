@@ -4,8 +4,9 @@
   "description": "Projeto padrão node.js para novas aplicações",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "build" : "tsc",
+    "prestart": "npx tsc",
+    "start": "node bin/index.js",
+    "build" : "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Douglas Campos",
