@@ -10,8 +10,7 @@
         "resolveJsonModule": true,
         "types": [
             "reflect-metadata",
-            "node",
-            "mocha"
+            "node"
         ],
         "lib": [
             "es2017",
