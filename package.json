@@ -2,11 +2,15 @@
   "name": "boilerplate",
   "version": "1.0.0",
   "description": "Projeto padrão node.js para novas aplicações",
-  "main": "index.js",
+  "main": "bin/index.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "prestart": "npx tsc",
     "start": "node bin/index.js",
-    "build" : "npx tsc",
+    "prebuild": "npx del bin",
+    "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Douglas Campos",
@@ -35,6 +39,7 @@
     "@types/compression": "^1.7.0",
     "@types/joi": "^14.3.4",
     "compression": "^1.7.4",
+    "del-cli": "^3.0.1",
     "http-status-codes": "^1.4.0",
     "inversify": "^5.0.1",
     "inversify-express-utils": "^6.3.2",
