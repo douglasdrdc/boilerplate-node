@@ -1,8 +1,8 @@
 import * as express from 'express';
 import { controller, httpGet, interfaces, requestParam, response, httpPost, requestBody } from 'inversify-express-utils';
 import { OK, CREATED } from 'http-status-codes';
-import { CORE_TYPES } from ../../../core/types;
-import SampleService from ../../../core/domain/service/interface/sample-service;
+import { CORE_TYPES } from '../../../core/types';
+import SampleService from '../../../core/domain/service/interface/sample-service';
 import SampleValidator from '../../../core/application/validators/interface/sample-validator';
 import { inject } from 'inversify';
 import { NotFoundError, ValidationError } from '../../../core/application/exception/error';
