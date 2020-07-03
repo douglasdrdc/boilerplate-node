@@ -27,7 +27,7 @@ export default class BaseSampleValidator implements SampleValidator {
 
     private createSchema() {
         return Joi.object().keys({
-            name: Joi.string().min(3).max(100).required().error(() => new ValidationError('Invalid Name')),
+            name: Joi.string().min(3).max(100).required().error(new ValidationError('Invalid Name')),
         });
     }
 
