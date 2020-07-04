@@ -49,18 +49,75 @@ export class SampleController implements interfaces.Controller {
         res.status(OK).json({
             blocks: [
                 {
-                    type: 'section',
+                    type: "section",
                     text: {
-                        type: 'mrkdwn',
-                        text: '*Its 80 degrees right now.*'
+                        type: "mrkdwn",
+                        text: "*Resumo da Stack - Busca COMBO*"
                     }
                 },
                 {
-                    type: 'section',
+                    type: "divider"
+                },
+                {
+                    type: "section",
                     text: {
-                        type: 'mrkdwn',
-                        text: 'Partly cloudy today and tomorrow'
+                        type: "mrkdwn",
+                        text: "*Status da stack:* BOM \n :star: :star: ★ \n _Observação: Stack funcionando, porem, com pontos de atenção_"
+                    },
+                    accessory: {
+                        type: "image",
+                        image_url: "https://www.iconsdb.com/icons/preview/orange/speed-xxl.png",
+                        alt_text: "Status Stack"
                     }
+                },
+                {
+                    type: "divider"
+                },
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text: ":point_right: *Total de itens analisados: * 25"
+                    }
+                },
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text: ":grin: *Total de itens com sucesso: * 21"
+                    }
+                },
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text: ":face_with_monocle: *Total de itens com alertas: * 4"
+                    }
+                },
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text: ":scream: *Total de itens com erro: * 0"
+                    }
+                },
+                {
+                    type: "actions",
+                    elements: [
+                        {
+                            type: "button",
+                            text: {
+                                type: "plain_text",
+                                emoji: true,
+                                text: "Mais detalhes"
+                            },
+                            style: "primary",
+                            value: "click_me_123"
+                        }
+                    ]
+                },
+                {
+                    type: "divider"
                 }
             ]
         });
