@@ -7,7 +7,7 @@
     "node": "10.x"
   },
   "scripts": {
-    "start": "node bin/index.js",
+    "start": "nodemon bin/index.js",
     "prebuild": "npx del bin",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -46,6 +46,7 @@
     "inversify-express-utils": "^6.3.2",
     "ioredis": "^4.17.3",
     "joi": "^14.3.1",
+    "nodemon": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "uuid": "^8.2.0",
     "verror": "^1.10.0"
