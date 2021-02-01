@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
 import { v4 as uuidv4 } from 'uuid';
-import redis from "./util/redis";
-import SampleRepository from "../../core/domain/infrastructure/repository/sample-repository";
 import { DatabaseError } from "../../core/application/exception/error";
+import SampleRepository from "../../core/domain/infrastructure/repository/sample-repository";
 import Sample from "../../core/domain/model/sample";
+import redis from "./util/redis";
 
 const keyPrefix = 'SAMPLE';
 const loggerPrefix = 'Sample';
@@ -12,11 +12,17 @@ const loggerPrefix = 'Sample';
 export default class RedisSampleRepository implements SampleRepository {
     async getAll(): Promise<Sample[]> {
         try {
-            const key = `${keyPrefix}:`;
-            const resultText = await redis.hgetall(key);
-            if (!resultText) return null;
-            const teste = Array<Sample>();
-            return teste;
+            const key = `${keyPrefix}:*`;
+            const keys = await redis.keys(key);
+            if ((keys || []).length <= 0) return null;
+
+            const values: Array<string> = await redis.mget(keys);
+            if ((values || []).length <= 0) return null;
+            
+            const samples: Array<Sample> = values.map((value) => 
+                JSON.parse(value)
+            );
+            return samples;
         } catch (err) {
             throw new DatabaseError(err, `Error in recovery ${loggerPrefix} collection.`);
         }
