@@ -37,10 +37,26 @@ Segue lista de variáveis de ambiente utilizadas:
 
 All your files and folders are presented as a tree in the file explorer. You can switch from one to another by clicking a file in the tree.
 
+```
+npm install
+```
+```
+docker-compose up
+```
+
 
 ## Como acessar a aplicação
 
 O objetivo desta aplicação é viabilizar via endpoint a inclusão, consulta geral e específica de "Samples" cadastrados. Segue abaixo detalhamento dos endpoint:
+
+URL da Aplicação: http://localhost:3008
+
+> **GET** /health-check
+> Consulta da saude do serviço
+```
+{ "ok": true }
+```
+<br>
 
 > **GET** /sample
 > Consulta todos os Samples cadastrados
@@ -58,6 +74,8 @@ Response:
 ]
 ```
 
+<br>
+
 > **GET** /sample/:id
 > Consulta Sample cadastrado através do ID retornado no POST
 ```
@@ -68,6 +86,7 @@ Response:
 }
 ```
 
+<br>
 
 > **POST** /sample
 > Inserir novo Sample no cadastro
