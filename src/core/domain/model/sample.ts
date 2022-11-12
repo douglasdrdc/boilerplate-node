@@ -1,4 +1,3 @@
-export default interface Sample {
-    id: number;
-    name: string;
+export interface Sample {
+  name: string;
 }

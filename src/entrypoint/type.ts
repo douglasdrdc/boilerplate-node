@@ -1,3 +1,3 @@
 export const ENTRYPOINT_TYPES = {
-    SampleController: Symbol('SampleController'),
+  SampleController: Symbol('SampleController'),
 };

@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-import HttpApplication from './entrypoint/http/app';
+import { httpMain } from './entrypoint/http/http-main';
 
-const app = new HttpApplication();
-app.start();
+httpMain();

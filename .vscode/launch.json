@@ -9,32 +9,33 @@
             "request": "launch",
             "name": "Launch program",
             "skipFiles": [
-                "<node_internals>/**"
+              "<node_internals>/**",
+              "${workspaceRoot}/node_modules/augmentative-iterable",
+              "${workspaceRoot}/node_modules/@codibre/fluent-iterable",
+              "${workspaceRoot}/node_modules/**/*augmentative-iterable*",
+              "${workspaceRoot}/node_modules/**/*fluent-iterable*"
             ],
             "cwd": "${workspaceRoot}",
-            "runtimeArgs": [
-                "-r",
-                "ts-node/register"
-            ],
-            "args": [
-                "${workspaceRoot}/src/index.ts"
-            ],
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
+            "envFile": "${workspaceFolder}/.env",
+            "runtimeExecutable": "${env:HOME}/.nvm/nvm-exec",
+            "runtimeArgs": ["node", "-r", "tsconfig-paths/register", "-r", "ts-node/register"],
+            "args": ["${workspaceRoot}/src/index.ts"],
+            "outputCapture": "std",
+          },
+          {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
+            "runtimeExecutable": "${env:HOME}/.nvm/nvm-exec",
+            "name": "Tests",
+            "skipFiles": ["<node_internals>/**"],
             "cwd": "${workspaceRoot}",
+            "runtimeArgs": ["node", "-r", "tsconfig-paths/register", "-r", "ts-node/register"],
             "args": [
-                "${workspaceRoot}/node_modules/mocha/bin/_mocha",
-                "--timeout",
-                "999999"
+              "${workspaceRoot}/node_modules/jest/bin/jest",
+              "test/unit",
+              "--runInBand"
             ],
             "outputCapture": "std"
-        }
+          }
     ]
 }
