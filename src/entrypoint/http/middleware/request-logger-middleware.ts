@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { AppLogger } from 'src/core/domain/utils';
 const STATUS_SCALE = 100;
 const SUCCESS = 2;
 const CLIENT_ERROR = 4;
 @Injectable()
 export class RequestLoggerMiddleware implements NestMiddleware {
-  constructor(private logger: Logger) {}
+  constructor(private logger: AppLogger) {}
 
   private logResponse(
     timestamp: number,
@@ -27,9 +28,10 @@ export class RequestLoggerMiddleware implements NestMiddleware {
           userAgent: req.headers['user-agent'] || '',
         });
       } catch (err) {
-        this.logger.warn('Error while logging response time.', {
-          errorMessage: (err as Error).message,
-        });
+        this.logger.addMeta(
+          'warnError',
+          (err as Error).stack ?? (err as Error).message,
+        );
       }
     };
   }
@@ -38,7 +40,7 @@ export class RequestLoggerMiddleware implements NestMiddleware {
     switch (Math.floor(statusCode / STATUS_SCALE)) {
       case SUCCESS:
       case CLIENT_ERROR:
-        return 'log';
+        return 'info';
       default:
         return 'error';
     }

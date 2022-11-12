@@ -7,8 +7,14 @@ import { sync } from 'read-pkg';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpServerConfig } from 'src/infrastructure/load-configuration';
+import * as api from '@opentelemetry/api';
+import { AsyncHooksContextManager } from '@opentelemetry/context-async-hooks';
 
 export async function httpMain() {
+  const contextManager = new AsyncHooksContextManager();
+  contextManager.enable();
+  api.context.setGlobalContextManager(contextManager);
+
   const app = await NestFactory.create(
     HttpModule,
     new FastifyAdapter({

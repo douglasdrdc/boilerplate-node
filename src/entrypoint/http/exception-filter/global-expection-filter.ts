@@ -5,14 +5,14 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  Logger,
 } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply } from 'fastify';
+import { AppLogger } from 'src/core/domain/utils';
 
 @Injectable()
 @Catch()
 export class GlobalExceptionsFilter implements ExceptionFilter {
-  constructor(private logger: Logger) {}
+  constructor(private logger: AppLogger) {}
 
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -22,12 +22,10 @@ export class GlobalExceptionsFilter implements ExceptionFilter {
       response.status(exception.getStatus()).send(exception.getResponse());
     } else {
       const status = HttpStatus.INTERNAL_SERVER_ERROR;
-      const request = ctx.getRequest<FastifyRequest>();
-      this.logger.error('Internal Server Error', {
-        error: exception.stack,
-        url: request.url,
-        payload: JSON.stringify(request.body),
-      });
+      this.logger.addMeta(
+        'unhandledError',
+        exception.stack ?? exception.message,
+      );
 
       response.status(status).send({
         statusCode: status,
