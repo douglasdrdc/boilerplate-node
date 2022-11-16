@@ -1,9 +1,9 @@
-import { injectable } from "inversify";
-import SampleClient from "../../core/domain/infrastructure/client/sample-client";
+import { Injectable } from '@nestjs/common';
+import { SampleClient } from 'src/core/domain/client/sample-client';
 
-@injectable()
-export default class ApiSampleClient implements SampleClient {
-    getInfo(sampleParams: any): Promise<any> {
-        return null;
-    }
+@Injectable()
+export class ApiSampleClient implements SampleClient {
+  async getInfo(_sampleParams: unknown): Promise<unknown> {
+    return null;
+  }
 }

@@ -1,127 +1,132 @@
-import * as express from 'express';
-import { controller, httpGet, interfaces, requestParam, response, httpPost, requestBody } from 'inversify-express-utils';
-import { OK, CREATED } from 'http-status-codes';
-import { CORE_TYPES } from '../../../core/types';
-import SampleService from '../../../core/domain/service/interface/sample-service';
-import SampleValidator from '../../../core/application/validators/interface/sample-validator';
-import { inject } from 'inversify';
-import { NotFoundError, ValidationError } from '../../../core/application/exception/error';
-import { request } from 'http';
-import Sample from '../../../core/domain/model/sample';
+import { Sample } from '../../../core/domain/model/sample';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
+import { BaseSampleValidator } from 'src/core/application/validators';
+import { BaseSampleService } from 'src/core/domain/service/base-sample-service';
+import { ValidationException } from 'src/core/domain/exception';
+import { SampleDto } from 'src/entrypoint/dto/sample-dto';
 
-@controller('/sample')
-export class SampleController implements interfaces.Controller {
-    constructor(
-        @inject(CORE_TYPES.SampleService) private readonly service: SampleService,
-        @inject(CORE_TYPES.SampleValidator) private readonly validator: SampleValidator
-    ) {}
+@Controller('/sample')
+export class SampleController {
+  constructor(
+    private readonly service: BaseSampleService,
+    private readonly validator: BaseSampleValidator,
+  ) {}
 
-    @httpGet('/')
-    public async getSamples(req: express.Request, res: express.Response) {
-        const result = await this.service.getAll();
-        if ((result || []).length <= 0) { throw new NotFoundError(); }
-        res.status(OK).json(result);
+  @Get()
+  public async getSamples() {
+    const result = await this.service.getAll();
+    return result;
+  }
+
+  @Get('/:id')
+  public async getSampleId(@Param('id') sampleId: string) {
+    const isValid = this.validator.validateSampleId(sampleId);
+    if (!isValid) {
+      throw new ValidationException('Invalid parameter');
     }
 
-    @httpGet('/:id')
-    //public async get(req: express.Request, res: express.Response) {
-    public async getSampleId(@requestParam('id') sampleId: string, @response() res: express.Response) {
-        const isValid = this.validator.validateSampleId(sampleId);
-        if(!isValid) {
-            throw new ValidationError('Invalid parameter');
-        }
-
-        const result = await this.service.getById(sampleId);
-        if (!result) { throw new NotFoundError(); }
-        res.status(OK).json(result);
+    const result = await this.service.getById(sampleId);
+    if (!result) {
+      throw new NotFoundException();
     }
+    return result;
+  }
 
-    @httpPost('/')
-    public async createSample(@requestBody() params: Sample, @response() res: express.Response) {
-        await this.validator.validateParams(params);
-    
-        const result = await this.service.create(<Sample>params);
-        res.status(CREATED).json({ id: result });
-    }
+  @Post()
+  public async createSample(@Body() params: SampleDto) {
+    await this.validator.validateParams(params);
 
-    @httpPost('/slack')
-    public async createSlackSample(@requestBody() params: Sample, @response() res: express.Response) {
-        res.status(OK).json({
-            blocks: [
-                {
-                    type: "section",
-                    text: {
-                        type: "mrkdwn",
-                        text: "*Resumo da Stack - Busca COMBO*"
-                    }
-                },
-                {
-                    type: "divider"
-                },
-                {
-                    type: "section",
-                    text: {
-                        type: "mrkdwn",
-                        text: "*Status da stack:* BOM \n :star: :star: ★ \n _Observação: Stack funcionando, porem, com pontos de atenção_"
-                    },
-                    accessory: {
-                        type: "image",
-                        image_url: "https://www.iconsdb.com/icons/preview/orange/speed-xxl.png",
-                        alt_text: "Status Stack"
-                    }
-                },
-                {
-                    type: "divider"
-                },
-                {
-                    type: "section",
-                    text: {
-                        type: "mrkdwn",
-                        text: ":point_right: *Total de itens analisados: * 25"
-                    }
-                },
-                {
-                    type: "section",
-                    text: {
-                        type: "mrkdwn",
-                        text: ":grin: *Total de itens com sucesso: * 21"
-                    }
-                },
-                {
-                    type: "section",
-                    text: {
-                        type: "mrkdwn",
-                        text: ":face_with_monocle: *Total de itens com alertas: * 4"
-                    }
-                },
-                {
-                    type: "section",
-                    text: {
-                        type: "mrkdwn",
-                        text: ":scream: *Total de itens com erro: * 0"
-                    }
-                },
-                {
-                    type: "actions",
-                    elements: [
-                        {
-                            type: "button",
-                            text: {
-                                type: "plain_text",
-                                emoji: true,
-                                text: "Mais detalhes"
-                            },
-                            style: "primary",
-                            value: "click_me_123"
-                        }
-                    ]
-                },
-                {
-                    type: "divider"
-                }
-            ]
-        });
-    }
+    const result = await this.service.create(params);
+    return { id: result };
+  }
 
+  @Post('/slack')
+  @HttpCode(HttpStatus.OK)
+  public async createSlackSample(@Body() _params: Sample) {
+    return {
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '*Resumo da Stack - Busca COMBO*',
+          },
+        },
+        {
+          type: 'divider',
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '*Status da stack:* BOM \n :star: :star: ★ \n _Observação: Stack funcionando, porem, com pontos de atenção_',
+          },
+          accessory: {
+            type: 'image',
+            image_url:
+              'https://www.iconsdb.com/icons/preview/orange/speed-xxl.png',
+            alt_text: 'Status Stack',
+          },
+        },
+        {
+          type: 'divider',
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: ':point_right: *Total de itens analisados: * 25',
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: ':grin: *Total de itens com sucesso: * 21',
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: ':face_with_monocle: *Total de itens com alertas: * 4',
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: ':scream: *Total de itens com erro: * 0',
+          },
+        },
+        {
+          type: 'actions',
+          elements: [
+            {
+              type: 'button',
+              text: {
+                type: 'plain_text',
+                emoji: true,
+                text: 'Mais detalhes',
+              },
+              style: 'primary',
+              value: 'click_me_123',
+            },
+          ],
+        },
+        {
+          type: 'divider',
+        },
+      ],
+    };
+  }
 }
-''
