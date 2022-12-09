@@ -27,21 +27,31 @@ Para rodar os testes da aplicação é necessário executar:
 ## Configurações
 
 Segue lista de variáveis de ambiente utilizadas:
- > **PORT**: Porta que a aplicação deve ser disponibilizada (Porta default: 3000);
+ > **HTTP_PORT**: Porta que a aplicação deve ser disponibilizada (Porta default: 3000);
  
- > **REDIS_URL**: Endereço do Redis utilizado como exemplo para persistir Sample Entity;
+ > **REDIS_URL**: Endereço do Redis utilizado como exemplo para persistir Sample Entity (Endereço default: redis://localhost:6379);
  
- > **REDIS_PASSWORD**: Senha do Redis quando houver.
+ > **REDIS_PASSWORD**: Senha do Redis quando houver (Senha default: undefined).
 
 ## Instruções para Execução do Projeto
-
-All your files and folders are presented as a tree in the file explorer. You can switch from one to another by clicking a file in the tree.
 
 ```
 npm install
 ```
+
 ```
 docker-compose up
+```
+
+### Para execução de forma local
+Para rodar de forma local, este boilerplate tem uma dependencia com o Redis a fim da implementação de um exemplo de persistência com a camada de repository. Por este motivo é necessário apontar a aplicação para um Redis local ou subir um container docker para simulação do mesmo. Para isso segue passo a passo para baixar um container na porta default 6379:
+
+```
+docker run --name sample-redis -p 6379:6379 -d redis
+```
+Confirme se o container está ativo com o comando:
+``` 
+docker ps -a
 ```
 
 
