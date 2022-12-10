@@ -35,7 +35,7 @@ module.exports = {
     ],
     "no-return-await": "off",
     "@typescript-eslint/return-await": "error",
-    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-empty-function': 'error',
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',
     '@typescript-eslint/no-unused-expressions': 'off',

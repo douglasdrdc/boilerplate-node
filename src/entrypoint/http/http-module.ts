@@ -6,8 +6,6 @@ import {
 } from '@nestjs/common';
 import { coreModules } from 'src/core/core-module';
 import { InfrastructureModule } from 'src/infrastructure/infrastructure-module';
-import { HealthCheckController } from './controller';
-import { SampleController } from './controller/sample-controller';
 import * as filters from './exception-filter';
 import {
   RequestContextMiddleware,
@@ -15,6 +13,8 @@ import {
 } from './middleware';
 import { logger } from './logger';
 import { AppLogger } from 'src/core/domain/utils';
+
+import { HealthCheckController, SampleController } from './controller';
 
 @Module({
   imports: [InfrastructureModule],
