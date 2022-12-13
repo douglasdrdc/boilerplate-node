@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Projeto padrão node.js para novas aplicações",
   "main": "bin/index.js",
+  "private": true,
   "engines": {
     "node": "18.x"
   },
